@@ -1,6 +1,8 @@
 {
-  "name": "npx-cider-theme",
+  "name": "create-cider-theme",
   "version": "0.0.2",
+  "author": "ciderapp",
+  "license": "GPL-3.0",
   "bin": {
     "create-cider-theme": "build/newTheme.js",
     "create-cider-plugin": "build/newPlugin.js"
@@ -12,9 +14,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cider",
+    "ciderapp",
+    "ciderapp-theme",
+    "ciderapp-sdk",
+    "cider-sdk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ciderapp/create-cider-theme.git"
+  },
   "dependencies": {
     "@inquirer/prompts": "^1.0.3",
     "dotenv": "^16.0.3"
