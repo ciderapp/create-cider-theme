@@ -12,13 +12,17 @@ export async function themeQuestion() {
         message: "Version of the theme",
         default: "1.0.0"
     });
+    theme.description = await input({
+        message: "Description of the theme",
+        default: "A theme for Cider 2"
+    });
     theme.author = await input({
         message: "Author of the theme",
         default: "your name"
     });
     theme.repository = await input({
         message: "Repository of the theme",
-        default: "ciderapp/my-theme"
+        default: `${theme.author}/${theme.name}`
     });
     theme.minimumCiderVersion = await input({
         message: "Minimum Cider version",
@@ -49,9 +53,11 @@ export async function themeQuestion() {
     do {
         const style: StyleType = {};
         const cfg: StyleConfigType = {};
-        console.log(`\n\nTheme ${theme.styles.length + 1}`);
+        let editDirectives: boolean = false;
+        if(theme.isPack) console.log(`\n\nTheme ${theme.styles.length + 1}`);
         style.identifier = await input({
             message: "Identifier (unique) of the style",
+            default: theme.isPack ? `${theme.name}-${theme.styles.length + 1}` : theme.name,
             validate: (value) => {
                 if (theme.styles?.find((style) => style.identifier == value)) return "This identifier is already used";
                 else if (value.length == 0) return "Please provide an identifier";
@@ -61,17 +67,45 @@ export async function themeQuestion() {
         });
         style.name = await input({
             message: "Name of the style",
+            default: theme.isPack ? `${theme.name} ${theme.styles.length + 1}` : theme.name,
             validate: (value) => (value.length == 0 ? "Please provide a name for the style" : true)
         });
         style.description = await input({
             message: "Description of the style",
+            default: !theme.isPack ? theme.description : "",
             validate: (value) => (value.length == 0 ? "Please provide a description for the style" : true)
         });
         style.fileName = await input({
             message: "File name of the style",
             default: style.identifier + ".css"
         });
-        console.log(`\n${style.identifier} Directives`);
+        editDirectives = await confirm({
+            message: "Do you want to edit directives?",
+            default: false
+        });
+        if (!editDirectives) {
+            cfg.layoutType = "mojave";
+            cfg.allowCustomAccent = false;
+            cfg.allowCustomTint = false;
+        } else {
+            console.log(`\n${style.identifier} Directives`);
+            cfg.layoutType = (await select({
+                message: "Layout Type",
+                choices: [
+                    { name: "Mojave", value: "mojave" },
+                    { name: "Mavericks", value: "mavericks" }
+                ]
+            })) as "mojave" | "mavericks";
+            cfg.allowCustomAccent = await confirm({
+                message: "Allow Custom Accent",
+                default: false
+            });
+            cfg.allowCustomTint = await confirm({
+                message: "Allow Custom Tint",
+                default: false
+            });
+        }
+        console.log(`\n${style.identifier} Configuration`);
         cfg.vibrancy = (await select({
             message: "Vibrancy Mode",
             choices: [
@@ -116,7 +150,7 @@ export async function themeQuestion() {
         style.cfg = cfg;
         theme.styles.push(style);
     } while (
-        theme.isPack ||
+        theme.isPack &&
         (await confirm({
             message: "Do you want to add another style?",
             default: false

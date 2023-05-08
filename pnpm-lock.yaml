@@ -4,6 +4,9 @@ dependencies:
   '@inquirer/prompts':
     specifier: ^1.0.3
     version: 1.0.3
+  dotenv:
+    specifier: ^16.0.3
+    version: 16.0.3
 
 devDependencies:
   '@types/mute-stream':
@@ -198,6 +201,11 @@ packages:
 
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+    dev: false
+
+  /dotenv@16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /emoji-regex@8.0.0:

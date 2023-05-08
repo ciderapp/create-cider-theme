@@ -1,6 +1,6 @@
 {
   "name": "npx-cider-theme",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bin": {
     "create-cider-theme": "build/newTheme.js",
     "create-cider-plugin": "build/newPlugin.js"
@@ -16,7 +16,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@inquirer/prompts": "^1.0.3"
+    "@inquirer/prompts": "^1.0.3",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
     "@types/mute-stream": "^0.0.1",
