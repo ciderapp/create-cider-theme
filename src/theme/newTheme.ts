@@ -1,11 +1,12 @@
 #! /usr/bin/env node
 import { themeQuestion } from "./themeQuestion.js";
 import { ThemeType } from "./themeTypes";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, writeFile, readFile } from "fs/promises";
 import "dotenv/config";
 
-console.log(process.env);
-console.log("Create Cider Theme v" + process.env.npm_package_version);
+
+const version: string = JSON.parse(await readFile("package.json", { encoding: "utf-8" })).version;
+console.log('\x1b[1m\x1b[36m%s\x1b[0m', "Create Cider Theme v" + version);
 const theme = await themeQuestion();
 
 // console.log(theme);
@@ -35,7 +36,7 @@ theme.styles?.forEach(async (style) => {
 
 function convertToTOML(theme: ThemeType) {
     let toml: string =
-        `# Created with Create Cider Theme v${process.env.npm_package_version}\n` +
+        `# Created with Create Cider Theme v${version}\n` +
         `[info]\n` +
         `name = "${theme.name}"\n` +
         `version = "${theme.version}"\n\n` +

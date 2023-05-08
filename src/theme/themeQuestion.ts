@@ -54,7 +54,7 @@ export async function themeQuestion() {
         const style: StyleType = {};
         const cfg: StyleConfigType = {};
         let editDirectives: boolean = false;
-        if(theme.isPack) console.log(`\n\nTheme ${theme.styles.length + 1}`);
+        if(theme.isPack) console.log('\x1b[1m\x1b[36m%s\x1b[0m', `\n\nTheme ${theme.styles.length + 1}`);
         style.identifier = await input({
             message: "Identifier (unique) of the style",
             default: theme.isPack ? `${theme.name}-${theme.styles.length + 1}` : theme.name,
@@ -88,7 +88,7 @@ export async function themeQuestion() {
             cfg.allowCustomAccent = false;
             cfg.allowCustomTint = false;
         } else {
-            console.log(`\n${style.identifier} Directives`);
+            console.log('\x1b[1m\x1b[36m%s\x1b[0m', `\n${style.identifier} Directives`);
             cfg.layoutType = (await select({
                 message: "Layout Type",
                 choices: [
@@ -105,7 +105,7 @@ export async function themeQuestion() {
                 default: false
             });
         }
-        console.log(`\n${style.identifier} Configuration`);
+        console.log('\x1b[1m\x1b[36m%s\x1b[0m', `\n${style.identifier} Configuration`);
         cfg.vibrancy = (await select({
             message: "Vibrancy Mode",
             choices: [
