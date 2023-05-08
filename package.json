@@ -1,0 +1,26 @@
+{
+  "name": "npx-cider-theme",
+  "version": "0.0.1",
+  "bin": {
+    "create-cider-theme": "build/newTheme.js",
+    "create-cider-plugin": "build/newPlugin.js"
+  },
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@inquirer/prompts": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/mute-stream": "^0.0.1",
+    "@types/node": "^20.1.0",
+    "typescript": "^5.0.4"
+  }
+}
