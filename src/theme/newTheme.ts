@@ -4,6 +4,8 @@ import { ThemeType } from "./themeTypes";
 import { mkdir, writeFile } from "fs/promises";
 import "dotenv/config";
 
+console.log(process.env);
+console.log("Create Cider Theme v" + process.env.npm_package_version);
 const theme = await themeQuestion();
 
 // console.log(theme);
