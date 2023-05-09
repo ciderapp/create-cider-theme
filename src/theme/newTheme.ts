@@ -7,7 +7,7 @@ import { parse } from "toml";
 
 const version: string = JSON.parse(await readFile(process.argv[1] + '../../../../package.json', { encoding: "utf-8" })).version;
 console.log('\x1b[1m\x1b[36m%s\x1b[0m', "Create Cider Theme v" + version);
-
+let hasError: boolean = false;
 let theme: ThemeType | null = null;
 let themeFile: string | null = await readFile("theme.toml", { encoding: "utf-8" }).catch(() => null);
 
@@ -28,13 +28,17 @@ await writeFile("theme.toml", convertToTOML(theme), { encoding: "utf-8" })
 .catch((err: Error) => {
     console.error(err);
 });
-
-await mkdir("styles").catch((err: Error) => {
-    console.error(err);
-});
+try {
+    await mkdir("styles")
+}
+catch (err: any) {
+    hasError = true;
+    if (err.code !== "EEXIST") console.log("Styles folder already exists, overwriting files...");
+}
 theme.style?.forEach(async (style) => {
     await writeFile(`styles/${style.file}`, "/* TODO: write css for file */", { encoding: "utf-8" })
     .then(() => {
+        if(hasError) process.stdout.clearLine(0);
         console.log("Style file created successfully!", process.cwd() + `\\styles\\${style.file}`);
     })
     .catch((err: Error) => {
