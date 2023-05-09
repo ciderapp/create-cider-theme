@@ -1,27 +1,31 @@
 export type ThemeType = {
-    name?: string;
-    version?: string;
-    description?: string;
-    author?: string;
-    repository?: string;
-    minimumCiderVersion?: string;
-    tags?: string[];
-    isPack?: boolean;
-    styles?: StyleType[];
-};
+    info: {
+        name?: string;
+        version?: string;
+        description?: string;
+        author?: string;
+        repository?: string;
+        minimumCiderVersion?: string;
+        tags?: string[];
+    },
+    style: StyleType[];
+}
 
 export type StyleType = {
     identifier?: string;
     name?: string;
     description?: string;
-    fileName?: string;
+    file?: string;
+    directives?: StyleDirectivesType;
     cfg?: StyleConfigType;
+};
+export type StyleDirectivesType = {
+    layoutType?: "mojave" | "mavericks";
+    allowCustomAccent?: boolean;
+    allowCustomTint?: boolean;
 };
 export type StyleConfigType = {
     vibrancy?: "mica" | "tabbed" | "none";
-    allowCustomAccent?: boolean;
-    allowCustomTint?: boolean;
-    layoutType?: "mojave" | "mavericks";
     editorialLayout?: boolean;
     useAdaptiveColors?: boolean;
     layoutView?: "HHh LpR FFf" | "HHh LpR lFf" | "lHh LpR FFf" | "lHh LpR lFf";

@@ -7,14 +7,17 @@ dependencies:
   dotenv:
     specifier: ^16.0.3
     version: 16.0.3
+  toml:
+    specifier: ^3.0.0
+    version: 3.0.0
 
 devDependencies:
   '@types/mute-stream':
     specifier: ^0.0.1
     version: 0.0.1
   '@types/node':
-    specifier: ^20.1.0
-    version: 20.1.0
+    specifier: ^20.1.1
+    version: 20.1.1
   typescript:
     specifier: ^5.0.4
     version: 5.0.4
@@ -139,11 +142,11 @@ packages:
   /@types/mute-stream@0.0.1:
     resolution: {integrity: sha512-0yQLzYhCqGz7CQPE3iDmYjhb7KMBFOP+tBkyw+/Y2YyDI5wpS7itXXxneN1zSsUwWx3Ji6YiVYrhAnpQGS/vkw==}
     dependencies:
-      '@types/node': 20.1.0
+      '@types/node': 20.1.1
     dev: true
 
-  /@types/node@20.1.0:
-    resolution: {integrity: sha512-O+z53uwx64xY7D6roOi4+jApDGFg0qn6WHcxe5QeqjMaTezBO/mxdfFXIVAVVyNWKx84OmPB3L8kbVYOTeN34A==}
+  /@types/node@20.1.1:
+    resolution: {integrity: sha512-uKBEevTNb+l6/aCQaKVnUModfEMjAl98lw2Si9P5y4hLu9tm6AlX2ZIoXZX6Wh9lJueYPrGPKk5WMCNHg/u6/A==}
     dev: true
 
   /ansi-escapes@4.3.2:
@@ -308,6 +311,10 @@ packages:
     engines: {node: '>=0.6.0'}
     dependencies:
       os-tmpdir: 1.0.2
+    dev: false
+
+  /toml@3.0.0:
+    resolution: {integrity: sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==}
     dev: false
 
   /type-fest@0.21.3:

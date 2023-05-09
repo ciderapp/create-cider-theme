@@ -1,6 +1,6 @@
 {
   "name": "create-cider-theme",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": "ciderapp",
   "license": "GPL-3.0",
   "bin": {
@@ -27,11 +27,12 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^1.0.3",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "toml": "^3.0.0"
   },
   "devDependencies": {
     "@types/mute-stream": "^0.0.1",
-    "@types/node": "^20.1.0",
+    "@types/node": "^20.1.1",
     "typescript": "^5.0.4"
   }
 }
