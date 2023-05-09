@@ -5,7 +5,7 @@ import { ThemeType } from "./themeTypes";
 import { mkdir, writeFile, readFile } from "fs/promises";
 import { parse } from "toml";
 
-const version: string = JSON.parse(await readFile(process.argv[1] + '../../../package.json', { encoding: "utf-8" })).version;
+const version: string = JSON.parse(await readFile(process.argv[1] + '../../../../package.json', { encoding: "utf-8" })).version;
 console.log('\x1b[1m\x1b[36m%s\x1b[0m', "Create Cider Theme v" + version);
 
 let theme: ThemeType | null = null;

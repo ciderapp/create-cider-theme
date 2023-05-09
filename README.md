@@ -8,8 +8,13 @@ The official tool to assist in creating themes for Cider (supports version 2 and
 `create-cider-theme` does not require any other dependencies aside from [Node.js](https://nodejs.org/en). To use this library all you need is [npm](https://www.npmjs.com/)'s `npx` cli tool.
 
 ### Usage
+pnpm (recommended)
 ```bash
-npx create-cider-theme
+pnpm create cider-theme #always gets latest version
+```
+npm (using npx)
+```bash
+npx create-cider-theme@latest #perfer latest version of create-cider-theme
 ```
 
 ### Development

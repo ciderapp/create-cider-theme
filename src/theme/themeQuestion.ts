@@ -120,8 +120,7 @@ export async function themeQuestion(ot: ThemeType | null) {
                 default: false
             });
         }
-        console.log("type is", typeof oldTheme.style[i].cfg?.vibrancy);
-        if (oldTheme.style[i].cfg?.vibrancy === undefined)
+        if (oldTheme.style[i]?.cfg?.vibrancy === undefined)
             editDirectives = await confirm({
                 message: "Do you want to edit theme configuration?",
                 default: false
