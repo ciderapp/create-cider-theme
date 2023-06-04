@@ -27,7 +27,7 @@
     "url": "https://github.com/ciderapp/create-cider-theme.git"
   },
   "dependencies": {
-    "@inquirer/prompts": "^1.0.3",
+    "@inquirer/prompts": "^2.0.0",
     "dotenv": "^16.0.3",
     "toml": "^3.0.0"
   },
