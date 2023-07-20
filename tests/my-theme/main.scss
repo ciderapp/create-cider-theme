@@ -1,0 +1,16 @@
+@import './second.scss';
+
+a {
+  color: blue;
+}
+
+button {
+  backdrop-filter: blur(10px);
+  &:hover {
+    color: blue;
+  }
+}
+
+div.logo {
+  background-image: url('c2icon.png');
+}
