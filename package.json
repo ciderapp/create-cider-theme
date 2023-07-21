@@ -26,10 +26,12 @@
     "url": "https://github.com/ciderapp/create-cider-theme.git"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.2",
     "chokidar": "^3.5.3",
     "dotenv": "^16.0.3",
     "koa": "^2.14.2",
     "toml": "^3.0.0",
+    "uuid": "^9.0.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

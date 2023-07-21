@@ -5,6 +5,7 @@ import { join } from "path"
 
 export type ThemeDef = {
     name: string
+    identifier: string
     styles: StyleDef[]
 }
 
@@ -19,6 +20,7 @@ export type ComputedStyle = {
 }
 
 export type ComputedSFT = {
+    identifier: string
     bundle: {
         name: string
     }
@@ -28,8 +30,9 @@ export type ComputedSFT = {
 
 export async function generateSFTJson(theme: ThemeDef, inlineAssets: boolean = true) {
     const root: ComputedSFT = {
+        identifier: theme.identifier,
         bundle: {
-            name: theme.name
+            name: theme.name,
         },
         styles: [],
     }
@@ -43,7 +46,7 @@ export async function generateSFTJson(theme: ThemeDef, inlineAssets: boolean = t
 
         if (!existsSync(join(workingDir, style.entry))) {
             console.warn(`Style entry ${style.entry} does not exist`)
-            if(!root.warnings) root.warnings = []
+            if (!root.warnings) root.warnings = []
             root.warnings.push(`Style entry ${style.entry} does not exist`)
             return
         }

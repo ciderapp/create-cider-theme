@@ -10,9 +10,9 @@ async function buildCSS(options) {
     const path = require('path');
     const css = fs.readFileSync(path.join(options.workingDir, options.styleDef.entry), 'utf8');
 
-    const plugins = [require('autoprefixer'), require('postcss-nested'), require('postcss-import')];
+    const plugins = [require('autoprefixer'), require('postcss-nested'), require('postcss-import'), require('./postcss-important')];
     if (options?.inlineAssets) {
-        plugins.push(
+        plugins.unshift(
             url({
                 url: 'inline'
             })

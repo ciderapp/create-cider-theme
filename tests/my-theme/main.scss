@@ -1,16 +1,15 @@
 @import './second.scss';
 
-a {
-  color: blue;
+.chrome-button {
+    height: 40px;
+    width: 64px;
 }
 
-button {
-  backdrop-filter: blur(10px);
-  &:hover {
-    color: blue;
-  }
+.mediaitem-card {
+  border-radius:0px;
+  --radius:0px;
 }
-
-div.logo {
-  background-image: url('c2icon.png');
+:root {
+  --mediaItemRadiusSmall: 0px;
+  --mediaItemRadiusMedium: 0px;
 }

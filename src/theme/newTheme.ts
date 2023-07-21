@@ -6,11 +6,14 @@ import { join } from 'path'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { generateSFTJson } from "./sft";
 import Koa from 'koa'
-import { PassThrough } from 'node:stream';
+import { EventEmitter, PassThrough } from 'node:stream';
 import chokidar from "chokidar";
+import { v4 } from "uuid";
 
 const args = yargs.argv as CLIArgs
 const workingDir = args.input ?? process.cwd()
+
+const sessionUUID = v4()
 
 const looseArgs = args._ as string[]
 
@@ -51,9 +54,27 @@ async function main() {
         console.log("Starting server")
         createServer()
 
+        chokidar.watch(workingDir).on('change', async () => {
+            const sft = await generateSFTJson(theme, false)
+
+            const res = {
+                type: 'update',
+                time: Date.now(),
+                data: sft
+            }
+
+            events.emit('data', JSON.stringify(res))
+        })
     }
 }
 
+function getServerPort() {
+    if (args.port) return args.port
+    return 4590
+}
+
+const events = new EventEmitter()
+events.setMaxListeners(0)
 
 function createServer() {
     return new Koa().
@@ -78,7 +99,6 @@ function createServer() {
             ctx.body = stream;
 
             const theme = getTheme()
-
             const sft = await generateSFTJson(theme, false)
 
             const res = {
@@ -87,27 +107,23 @@ function createServer() {
                 data: sft
             }
 
-            stream.write(JSON.stringify(res))
+            const listener = (data: any) => {
+                // write in base64
+                stream.write(`data: ${btoa(data)}\n\n`);
+            }
 
-            chokidar.watch(workingDir).on('change', async () => {
-                const theme = getTheme()
+            events.on("data", listener);
 
-                const sft = await generateSFTJson(theme, false)
+            stream.on("close", () => {
+                events.off("data", listener);
+            });
 
-                const res = {
-                    type: 'update',
-                    time: Date.now(),
-                    data: sft
-                }
-
-                stream.write(JSON.stringify(res))
-            })
-
+            stream.write(`data: ${btoa(JSON.stringify(res))}\n\n`);
         })
         .use(ctx => {
             ctx.status = 200;
             ctx.body = "ok";
-        }).listen(4590, () => console.log("Server started"))
+        }).listen(getServerPort(), () => console.log("Server started"))
 
 }
 
