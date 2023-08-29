@@ -4,7 +4,7 @@ import yargs from "yargs"
 import { CLIArgs } from "./cli-args";
 import { join } from 'path'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { generateSFTJson } from "./sft";
+import { ThemeDef, generateSFTJson } from "./sft";
 import Koa from 'koa'
 import { EventEmitter, PassThrough } from 'node:stream';
 import chokidar from "chokidar";
@@ -27,28 +27,51 @@ function getTheme() {
 }
 
 async function main() {
-    console.log(process.env.SDK_PLUGINS_VER)
+    console.log('Plugin API Version: ', process.env.SDK_PLUGINS_VER)
     const theme = getTheme()
     if (!theme) {
         console.error("No theme.json found in working directory")
         process.exit(1)
     }
-    console.log(theme)
-    // return
+    console.log('Theme name: ', theme?.name ?? 'null')
 
-    console.log(`This themes name is ${theme?.name ?? 'null'}`)
+    if(looseArgs.includes('new')) {
+        let path = looseArgs[looseArgs.indexOf('new') + 1] ?? cwd()
+        if(!existsSync(path)) {
+            mkdirSync(path)
+        }
+
+        const theme: ThemeDef = {
+            author: 'Unknown',
+            identifier: 'com.example.theme',
+            name: 'New Theme',
+            styles: []
+        }
+
+        // write theme.json to that folder
+        writeFileSync(join(path, 'theme.json'), JSON.stringify(theme, null, 4))
+        // write empty style.scss to that folder
+        writeFileSync(join(path, 'style.scss'), '')
+
+        console.log("Created new theme")
+
+        process.exit(0)
+    }
 
     if (looseArgs.includes('compile')) {
+        performance.now()
+        let path = looseArgs[looseArgs.indexOf('compile') + 1] ?? workingDir
+
         const sft = await generateSFTJson(theme, true)
 
         // check if dist exists
-        if (!existsSync(join(workingDir, 'dist'))) {
-            mkdirSync(join(workingDir, 'dist'))
+        if (!existsSync(join(path, 'dist'))) {
+            mkdirSync(join(path, 'dist'))
         }
 
-        writeFileSync(join(workingDir, 'dist/theme.sft'), JSON.stringify(sft))
+        writeFileSync(join(path, 'dist/theme.cider-theme'), JSON.stringify(sft))
 
-        console.log("Done")
+        console.log("Compiled theme in ", +performance.now().toFixed(2), "ms")
 
         process.exit(0)
     }
