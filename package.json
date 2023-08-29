@@ -1,17 +1,20 @@
 {
   "name": "create-cider-theme",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "author": "ciderapp",
-  "license": "GPL-3.0",
   "bin": {
     "create-cider-theme": "build/theme/newTheme.js",
     "create-cider-plugin": "build/plugin/newPlugin.js"
   },
+  "sdk-versions": {
+    "themes": "1",
+    "plugins": "1"
+  },
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:create-cider-theme": "ts-node src/theme/newTheme.ts",
     "build": "tsc",
     "prepare": "tsc"
   },
@@ -27,13 +30,27 @@
     "url": "https://github.com/ciderapp/create-cider-theme.git"
   },
   "dependencies": {
-    "@inquirer/prompts": "^1.0.3",
+    "@types/uuid": "^9.0.2",
+    "chokidar": "^3.5.3",
     "dotenv": "^16.0.3",
-    "toml": "^3.0.0"
+    "koa": "^2.14.2",
+    "toml": "^3.0.0",
+    "uuid": "^9.0.0",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@types/chokidar": "^2.1.3",
+    "@types/koa": "^2.13.6",
     "@types/mute-stream": "^0.0.1",
     "@types/node": "^20.1.1",
+    "@types/yargs": "^17.0.24",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.26",
+    "postcss-import": "^15.1.0",
+    "postcss-nested": "^6.0.1",
+    "postcss-scss": "^4.0.6",
+    "postcss-url": "^10.1.3",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }
 }
