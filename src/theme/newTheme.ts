@@ -2,7 +2,7 @@
 import process, { cwd } from "node:process";
 import yargs from "yargs"
 import { CLIArgs } from "./cli-args";
-import { join } from 'path'
+import { join, resolve } from 'path'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { ThemeDef, generateSFTJson } from "./sft";
 import Koa from 'koa'
@@ -19,8 +19,8 @@ const sessionUUID = v4()
 
 const looseArgs = args._ as string[]
 
-function getTheme() {
-    const fileData = readFileSync(join(workingDir, 'theme.json'), { encoding: 'utf-8' })
+function getTheme(path: string) {
+    const fileData = readFileSync(join(path, 'theme.json'), { encoding: 'utf-8' })
     const theme: any = JSON.parse(fileData)
 
     return theme
@@ -28,16 +28,11 @@ function getTheme() {
 
 async function main() {
     console.log('Plugin API Version: ', process.env.SDK_PLUGINS_VER)
-    const theme = getTheme()
-    if (!theme) {
-        console.error("No theme.json found in working directory")
-        process.exit(1)
-    }
-    console.log('Theme name: ', theme?.name ?? 'null')
 
-    if(looseArgs.includes('new')) {
+
+    if (looseArgs.includes('new')) {
         let path = looseArgs[looseArgs.indexOf('new') + 1] ?? cwd()
-        if(!existsSync(path)) {
+        if (!existsSync(path)) {
             mkdirSync(path)
         }
 
@@ -45,7 +40,12 @@ async function main() {
             author: 'Unknown',
             identifier: 'com.example.theme',
             name: 'New Theme',
-            styles: []
+            styles: [
+                {
+                    "name": "New Style",
+                    "entry": "style.scss"
+                },
+            ]
         }
 
         // write theme.json to that folder
@@ -58,11 +58,20 @@ async function main() {
         process.exit(0)
     }
 
+
     if (looseArgs.includes('compile')) {
         performance.now()
         let path = looseArgs[looseArgs.indexOf('compile') + 1] ?? workingDir
 
-        const sft = await generateSFTJson(theme, true)
+        const theme = getTheme(path)
+        if (!theme) {
+            console.error("No theme.json found in working directory")
+            process.exit(1)
+        }
+        console.log('Theme name: ', theme?.name ?? 'null')
+
+        const sft = await generateSFTJson(theme, true, resolve(path))
+
 
         // check if dist exists
         if (!existsSync(join(path, 'dist'))) {
@@ -77,11 +86,23 @@ async function main() {
     }
 
     if (looseArgs.includes('serve')) {
-        console.log("Starting server")
-        createServer()
+        let path = looseArgs[looseArgs.indexOf('serve') + 1] ?? workingDir
 
-        chokidar.watch(workingDir).on('change', async () => {
-            const sft = await generateSFTJson(theme, false)
+        const resolvedPath = resolve(path)
+
+        const theme = getTheme(path)
+        if (!theme) {
+            console.error("No theme.json found in working directory")
+            process.exit(1)
+        }
+        console.log('Theme name: ', theme?.name ?? 'null')
+
+        createServer({
+            workingDir: resolvedPath
+        })
+
+        chokidar.watch(resolvedPath).on('change', async () => {
+            const sft = await generateSFTJson(theme, false, resolvedPath)
 
             const res = {
                 type: 'update',
@@ -102,7 +123,11 @@ function getServerPort() {
 const events = new EventEmitter()
 events.setMaxListeners(0)
 
-function createServer() {
+interface CreateServerOptions {
+    workingDir: string
+}
+
+function createServer(opts: Partial<CreateServerOptions>) {
     return new Koa().
         use(async (ctx, next) => {
             if (ctx.path !== "/sse") {
@@ -124,8 +149,8 @@ function createServer() {
             ctx.status = 200;
             ctx.body = stream;
 
-            const theme = getTheme()
-            const sft = await generateSFTJson(theme, false)
+            const theme = getTheme(opts?.workingDir ?? workingDir)
+            const sft = await generateSFTJson(theme, false, opts?.workingDir ?? workingDir)
 
             const res = {
                 type: 'update',

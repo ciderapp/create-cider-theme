@@ -3,5 +3,5 @@ import { CLIArgs } from "./cli-args"
 
 export function getWorkingDir(): string {
     const args = yargs.argv as CLIArgs
-    return args.input ?? process.cwd()
+    return args.path ?? process.cwd()
 }

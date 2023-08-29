@@ -14,7 +14,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:create-cider-theme": "ts-node src/theme/newTheme.ts --input=./tests/my-theme",
+    "test:create-cider-theme": "ts-node src/theme/newTheme.ts",
     "build": "tsc",
     "prepare": "tsc"
   },

@@ -31,7 +31,7 @@ export type ComputedSFT = {
     warnings?: string[]
 }
 
-export async function generateSFTJson(theme: ThemeDef, inlineAssets: boolean = true) {
+export async function generateSFTJson(theme: ThemeDef, inlineAssets: boolean = true, workingDir: string) {
     const root: ComputedSFT = {
         identifier: theme.identifier,
         author: theme.author,
@@ -43,9 +43,7 @@ export async function generateSFTJson(theme: ThemeDef, inlineAssets: boolean = t
     }
     root['bundle'] = {
         name: theme.name
-    }
-
-    const workingDir = getWorkingDir()
+    }   
 
     await Promise.all(theme.styles.map(async style => {
 
