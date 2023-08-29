@@ -1,10 +1,14 @@
 {
   "name": "create-cider-theme",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "ciderapp",
   "bin": {
     "create-cider-theme": "build/theme/newTheme.js",
     "create-cider-plugin": "build/plugin/newPlugin.js"
+  },
+  "sdk-versions": {
+    "themes": "1",
+    "plugins": "1"
   },
   "description": "",
   "main": "index.js",

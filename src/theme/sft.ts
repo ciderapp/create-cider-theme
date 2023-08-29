@@ -6,6 +6,7 @@ import { join } from "path"
 export type ThemeDef = {
     name: string
     identifier: string
+    author: string,
     styles: StyleDef[]
 }
 
@@ -21,8 +22,10 @@ export type ComputedStyle = {
 
 export type ComputedSFT = {
     identifier: string
+    author: string
     bundle: {
         name: string
+        sdk_version?: string
     }
     styles: ComputedStyle[]
     warnings?: string[]
@@ -31,8 +34,10 @@ export type ComputedSFT = {
 export async function generateSFTJson(theme: ThemeDef, inlineAssets: boolean = true) {
     const root: ComputedSFT = {
         identifier: theme.identifier,
+        author: theme.author,
         bundle: {
             name: theme.name,
+            sdk_version: process.env.SDK_PLUGINS_VER
         },
         styles: [],
     }

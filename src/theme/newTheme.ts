@@ -10,6 +10,8 @@ import { EventEmitter, PassThrough } from 'node:stream';
 import chokidar from "chokidar";
 import { v4 } from "uuid";
 
+process.env.SDK_PLUGINS_VER = require('../../package.json')['sdk-versions']['plugins']
+
 const args = yargs.argv as CLIArgs
 const workingDir = args.input ?? process.cwd()
 
@@ -25,6 +27,7 @@ function getTheme() {
 }
 
 async function main() {
+    console.log(process.env.SDK_PLUGINS_VER)
     const theme = getTheme()
     if (!theme) {
         console.error("No theme.json found in working directory")

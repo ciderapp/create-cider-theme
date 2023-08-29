@@ -1,6 +1,7 @@
 {
     "name": "My Theme",
-    "identifier": "my-theme",
+    "identifier": "my-theme2",
+    "author": "ciderapp",
     "styles": [
         {
             "name": "My Style",
